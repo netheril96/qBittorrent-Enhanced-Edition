@@ -31,6 +31,7 @@
 
 #include <QtContainerFwd>
 #include <QObject>
+#include <libtorrent/peer_connection.hpp>
 
 #include "base/pathfwd.h"
 #include "base/tagset.h"
@@ -250,6 +251,9 @@ namespace BitTorrent
         // Auto ban Bittorrent Media Player Peer
         virtual bool isAutoBanBTPlayerPeerEnabled() const = 0;
         virtual void setAutoBanBTPlayerPeer(bool value) = 0;
+
+        // Promote a peer to a higher tier
+        virtual void promote_peer_to_uploader_class(libtorrent::peer_connection&) {}
 
         // Shadowban IP
         virtual bool isShadowBanEnabled() const = 0;

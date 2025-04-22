@@ -112,6 +112,7 @@
 #include "tracker.h"
 #include "trackerentry.h"
 #include "trackerentrystatus.h"
+#include "uploading_peer_bump_plugin.hpp"
 
 using namespace std::chrono_literals;
 using namespace BitTorrent;
@@ -1732,6 +1733,8 @@ void SessionImpl::initializeNativeSession()
     m_nativeSession->add_extension(std::make_shared<peer_filter_session_plugin>());
     if (isShadowBanEnabled())
         m_nativeSession->add_extension(&create_peer_shadowban_plugin);
+    if (std::getenv("QBT_DISABLE_PEER_UPLOAD_BUMP") == nullptr)
+        m_nativeSession->add_extension(std::make_shared<CustomLtPlugin::peer_uploading_bump_session_plugin>(m_nativeSession));
 
     LogMsg(tr("Peer Exchange (PeX) support: %1").arg(isPeXEnabled() ? tr("ON") : tr("OFF")), Log::INFO);
     LogMsg(tr("Anonymous mode: %1").arg(isAnonymousModeEnabled() ? tr("ON") : tr("OFF")), Log::INFO);
